@@ -14,9 +14,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 两个应用 × 三个平台 = 6 个并行任务
+        # 两个应用 × 三个平台 = 6 个并行任务；macOS 用 universal 兼顾 Intel + Apple Silicon
         app: [configurator, prep-tool]
         platform: [windows-latest, macos-latest, ubuntu-22.04]
+        include:
+          - platform: macos-latest
+            args: '--target universal-apple-darwin'
+            rust_targets: 'aarch64-apple-darwin,x86_64-apple-darwin'
+          - platform: windows-latest
+            args: ''
+            rust_targets: ''
+          - platform: ubuntu-22.04
+            args: ''
+            rust_targets: ''
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -41,6 +51,8 @@ jobs:
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust_targets }}
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
@@ -61,6 +73,7 @@ jobs:
           # Windows 代码签名（可选）：在各应用的 tauri.conf.json 配置 certificateThumbprint。
         with:
           projectPath: ${{ matrix.app }}
+          args: ${{ matrix.args }}
           tagName: ${{ matrix.app }}-${{ github.ref_name }}
           releaseName: '${{ matrix.app }} ${{ github.ref_name }}'
           releaseDraft: true
