@@ -1,0 +1,147 @@
+{
+  "$cfgform": "2.0",
+  "target": "app.toml",
+  "format": "toml",
+  "title": "应用主配置（TOML 示例）",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "应用主配置",
+    "required": ["title", "server", "database"],
+    "properties": {
+      "title": {
+        "type": "string",
+        "minLength": 1,
+        "description": "应用名称。"
+      },
+      "version": {
+        "type": "string",
+        "description": "内部版本号（由作者维护，用户请勿修改）。"
+      },
+      "server": {
+        "type": "object",
+        "title": "服务器",
+        "required": ["host", "port"],
+        "properties": {
+          "host": {
+            "type": "string",
+            "default": "0.0.0.0",
+            "description": "监听地址。0.0.0.0 表示监听所有网卡。"
+          },
+          "port": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535,
+            "default": 8000,
+            "description": "监听端口（1–65535）。"
+          },
+          "workers": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 64,
+            "default": 4,
+            "description": "工作进程数。"
+          }
+        }
+      },
+      "database": {
+        "type": "object",
+        "title": "数据库",
+        "required": ["url"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "minLength": 1,
+            "description": "数据库连接串（包含账号与密码）。"
+          },
+          "pool_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10,
+            "description": "连接池大小。"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 600,
+            "default": 30,
+            "description": "连接超时（秒）。"
+          }
+        }
+      },
+      "logging": {
+        "type": "object",
+        "title": "日志",
+        "properties": {
+          "level": {
+            "type": "string",
+            "enum": ["debug", "info", "warn", "error"],
+            "default": "info",
+            "description": "日志级别。"
+          },
+          "json_output": {
+            "type": "boolean",
+            "default": false,
+            "description": "是否以 JSON 格式输出日志。"
+          }
+        }
+      }
+    }
+  },
+  "ui": {
+    "ui:order": ["title", "version", "server", "database", "logging"],
+    "title": {
+      "ui:help": "应用对外名称，可填中文。"
+    },
+    "version": {
+      "ui:readOnly": true,
+      "ui:help": "作者锁定：内部版本号由作者维护，表单中只读，请勿修改。"
+    },
+    "server": {
+      "host": {
+        "ui:help": "通常保持 0.0.0.0；仅监听本机可填 127.0.0.1。"
+      },
+      "port": {
+        "ui:help": "服务监听端口，范围 1–65535。"
+      },
+      "workers": {
+        "ui:widget": "range",
+        "ui:options": { "min": 1, "max": 64, "step": 1 },
+        "ui:help": "一般设为 CPU 核心数。"
+      }
+    },
+    "database": {
+      "url": {
+        "ui:secret": true,
+        "ui:help": "连接串含账号密码，默认掩码；其值不会写入审计日志或边车。"
+      },
+      "pool_size": {
+        "ui:help": "并发越高可适当调大。"
+      },
+      "timeout_seconds": {
+        "ui:help": "建立连接的超时时间（秒）。"
+      }
+    },
+    "logging": {
+      "level": {
+        "ui:enumNames": ["调试", "信息", "警告", "错误"],
+        "ui:help": "排查问题时可临时调到「调试」。"
+      },
+      "json_output": {
+        "ui:help": "接入日志采集系统时建议开启。"
+      }
+    }
+  },
+  "meta": {
+    "generatedBy": "curated/cfgform-sample",
+    "generatedAt": "2026-06-20T10:15:30Z",
+    "stackDetected": "generic",
+    "llm": {
+      "used": false,
+      "model": "",
+      "note": "示例边车，手工编写，演示 TOML 嵌套表、ui:readOnly 作者锁定（version）与 ui:secret（database.url）。"
+    },
+    "sources": []
+  }
+}

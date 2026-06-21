@@ -1,0 +1,71 @@
+name: release
+
+# 触发：推送 v* 标签（如 v1.0.0）或手动运行。
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-tauri:
+    permissions:
+      contents: write   # 允许把安装包上传到 GitHub Release
+    strategy:
+      fail-fast: false
+      matrix:
+        # 两个应用 × 三个平台 = 6 个并行任务
+        app: [configurator, prep-tool]
+        platform: [windows-latest, macos-latest, ubuntu-22.04]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux dependencies (Tauri v2 webkit2gtk 4.1)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            librsvg2-dev \
+            patchelf \
+            libxdo-dev \
+            build-essential curl wget file libssl-dev \
+            libayatana-appindicator3-dev
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: ${{ matrix.app }}/src-tauri -> target
+
+      - name: Install frontend dependencies
+        working-directory: ${{ matrix.app }}
+        run: npm install
+
+      - name: Build & publish to Release (tauri-action)
+        uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # macOS 代码签名/公证（可选，留空则不签名）：
+          # APPLE_CERTIFICATE / APPLE_CERTIFICATE_PASSWORD / APPLE_SIGNING_IDENTITY
+          # APPLE_ID / APPLE_PASSWORD / APPLE_TEAM_ID
+          # Windows 代码签名（可选）：在各应用的 tauri.conf.json 配置 certificateThumbprint。
+        with:
+          projectPath: ${{ matrix.app }}
+          tagName: ${{ matrix.app }}-${{ github.ref_name }}
+          releaseName: '${{ matrix.app }} ${{ github.ref_name }}'
+          releaseDraft: true
+          prerelease: false
+          # 各平台自动产出：
+          #   Windows -> NSIS .exe + MSI
+          #   macOS   -> .dmg + .app（universal 需额外配置 target）
+          #   Linux   -> .deb + .rpm + .AppImage

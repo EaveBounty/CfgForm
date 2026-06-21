@@ -1,0 +1,105 @@
+{
+  "$cfgform": "2.0",
+  "target": "tsconfig.json",
+  "format": "json",
+  "title": "TypeScript 配置（tsconfig.json）",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "tsconfig.json",
+    "description": "TypeScript 编译配置常见字段模板（适度宽松，允许其它字段）。",
+    "additionalProperties": true,
+    "properties": {
+      "extends": {
+        "type": "string",
+        "description": "继承的基础配置文件路径。"
+      },
+      "compilerOptions": {
+        "type": "object",
+        "title": "编译选项",
+        "additionalProperties": true,
+        "properties": {
+          "target": {
+            "type": "string",
+            "enum": ["ES5", "ES2015", "ES2017", "ES2020", "ES2022", "ESNext"],
+            "default": "ES2020",
+            "description": "编译输出的 ECMAScript 目标版本。"
+          },
+          "module": {
+            "type": "string",
+            "enum": ["CommonJS", "ESNext", "NodeNext", "ES2020", "ES2022"],
+            "description": "模块代码生成方式。"
+          },
+          "moduleResolution": {
+            "type": "string",
+            "enum": ["node", "node16", "nodenext", "bundler", "classic"],
+            "description": "模块解析策略。"
+          },
+          "strict": {
+            "type": "boolean",
+            "default": true,
+            "description": "启用所有严格类型检查选项。"
+          },
+          "esModuleInterop": {
+            "type": "boolean",
+            "default": true,
+            "description": "改善 CommonJS 与 ES 模块的互操作。"
+          },
+          "outDir": {
+            "type": "string",
+            "description": "编译产物输出目录。"
+          },
+          "rootDir": {
+            "type": "string",
+            "description": "源码根目录。"
+          },
+          "sourceMap": {
+            "type": "boolean",
+            "default": false,
+            "description": "是否生成 .map 源码映射。"
+          },
+          "skipLibCheck": {
+            "type": "boolean",
+            "default": true,
+            "description": "跳过对 .d.ts 声明文件的类型检查（加快编译）。"
+          }
+        }
+      },
+      "include": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "纳入编译的文件/目录通配符。"
+      },
+      "exclude": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "排除编译的文件/目录通配符。"
+      }
+    }
+  },
+  "ui": {
+    "ui:order": ["extends", "compilerOptions", "include", "exclude", "*"],
+    "compilerOptions": {
+      "target": {
+        "ui:help": "现代浏览器/Node 一般用 ES2020 及以上。"
+      },
+      "module": { "ui:help": "Node 项目常用 NodeNext，打包项目可用 ESNext。" },
+      "moduleResolution": { "ui:help": "现代项目推荐 bundler 或 nodenext。" },
+      "strict": { "ui:help": "强烈建议开启，可在编译期发现更多错误。" },
+      "skipLibCheck": { "ui:help": "开启可显著加快编译，代价是不检查依赖类型。" }
+    },
+    "include": { "ui:help": "如 [\"src\"] 或 [\"src/**/*.ts\"]。" },
+    "exclude": { "ui:help": "如 [\"node_modules\", \"dist\"]。" }
+  },
+  "meta": {
+    "generatedBy": "curated/cfgform-schemas",
+    "generatedAt": "2026-06-20T10:15:30Z",
+    "stackDetected": "node",
+    "llm": {
+      "used": false,
+      "model": "",
+      "note": "内置 schema 库精选模板，手工策划。复制到你的 tsconfig.json 旁并改名为 tsconfig.json.cfgform 即可使用。"
+    },
+    "sources": []
+  }
+}

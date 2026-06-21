@@ -1,0 +1,155 @@
+{
+  "$cfgform": "2.0",
+  "target": "docker-compose.yml",
+  "format": "compose",
+  "title": "服务编排配置（Docker Compose 示例）",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "服务编排",
+    "description": "YAML/Compose 值往返正确，但保存后注释与锚点会被规整化（已知限制，写前请看 Dry-run 预览）。",
+    "required": ["version", "services"],
+    "properties": {
+      "version": {
+        "type": "string",
+        "description": "Compose 文件版本。"
+      },
+      "services": {
+        "type": "object",
+        "title": "服务",
+        "required": ["web", "db"],
+        "properties": {
+          "web": {
+            "type": "object",
+            "title": "Web 服务",
+            "required": ["image"],
+            "properties": {
+              "image": {
+                "type": "string",
+                "default": "nginx:1.25",
+                "description": "镜像名称与标签。"
+              },
+              "restart": {
+                "type": "string",
+                "enum": ["no", "always", "on-failure", "unless-stopped"],
+                "default": "always",
+                "description": "重启策略。"
+              },
+              "ports": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "端口映射，形如 \"宿主端口:容器端口\"。"
+              },
+              "environment": {
+                "type": "object",
+                "title": "环境变量",
+                "additionalProperties": { "type": "string" },
+                "properties": {
+                  "NODE_ENV": {
+                    "type": "string",
+                    "default": "production",
+                    "description": "Node 运行环境。"
+                  }
+                }
+              }
+            }
+          },
+          "db": {
+            "type": "object",
+            "title": "数据库服务",
+            "required": ["image"],
+            "properties": {
+              "image": {
+                "type": "string",
+                "default": "postgres:16",
+                "description": "镜像名称与标签。"
+              },
+              "restart": {
+                "type": "string",
+                "enum": ["no", "always", "on-failure", "unless-stopped"],
+                "default": "unless-stopped",
+                "description": "重启策略。"
+              },
+              "environment": {
+                "type": "object",
+                "title": "环境变量",
+                "additionalProperties": { "type": "string" },
+                "properties": {
+                  "POSTGRES_USER": {
+                    "type": "string",
+                    "default": "app",
+                    "description": "数据库用户名。"
+                  },
+                  "POSTGRES_PASSWORD": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "数据库密码。"
+                  }
+                }
+              },
+              "volumes": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "数据卷挂载，形如 \"卷名:容器路径\"。"
+              }
+            }
+          }
+        }
+      },
+      "volumes": {
+        "type": "object",
+        "title": "命名卷",
+        "additionalProperties": true,
+        "description": "声明命名数据卷。"
+      }
+    }
+  },
+  "ui": {
+    "ui:order": ["version", "services", "volumes"],
+    "version": {
+      "ui:help": "Compose 文件格式版本，一般无需改动。"
+    },
+    "services": {
+      "web": {
+        "image": { "ui:help": "如 nginx:1.25、node:20-alpine。" },
+        "restart": {
+          "ui:enumNames": ["不重启", "总是重启", "失败时重启", "除非手动停止"],
+          "ui:help": "容器退出后的重启策略。"
+        },
+        "ports": { "ui:help": "每项形如 80:80（宿主端口:容器端口）。" },
+        "environment": {
+          "NODE_ENV": { "ui:help": "通常为 production 或 development。" }
+        }
+      },
+      "db": {
+        "image": { "ui:help": "如 postgres:16、mysql:8。" },
+        "restart": {
+          "ui:enumNames": ["不重启", "总是重启", "失败时重启", "除非手动停止"],
+          "ui:help": "容器退出后的重启策略。"
+        },
+        "environment": {
+          "POSTGRES_USER": { "ui:help": "数据库用户名。" },
+          "POSTGRES_PASSWORD": {
+            "ui:secret": true,
+            "ui:help": "数据库密码，默认掩码；其值不会写入审计日志或边车。"
+          }
+        },
+        "volumes": { "ui:help": "每项形如 db-data:/var/lib/postgresql/data。" }
+      }
+    },
+    "volumes": {
+      "ui:help": "命名卷声明，通常无需改动。"
+    }
+  },
+  "meta": {
+    "generatedBy": "curated/cfgform-sample",
+    "generatedAt": "2026-06-20T10:15:30Z",
+    "stackDetected": "generic",
+    "llm": {
+      "used": false,
+      "model": "",
+      "note": "示例边车，手工编写，format=compose，演示嵌套服务、端口/卷数组与 ui:secret（db 的 POSTGRES_PASSWORD）。YAML 保存会规整化注释。"
+    },
+    "sources": []
+  }
+}

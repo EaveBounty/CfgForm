@@ -1,0 +1,106 @@
+{
+  "$cfgform": "2.0",
+  "target": "docker-compose.yml",
+  "format": "compose",
+  "title": "服务编排配置（docker-compose.yml）",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "Docker Compose",
+    "description": "通用 Compose 模板（适度宽松，服务名各异，故 services 用 additionalProperties）。YAML 保存会规整化注释，写前请看 Dry-run。",
+    "required": ["services"],
+    "additionalProperties": true,
+    "properties": {
+      "version": {
+        "type": "string",
+        "description": "Compose 文件版本（较新 Docker 可省略）。"
+      },
+      "services": {
+        "type": "object",
+        "title": "服务",
+        "description": "每个键是一个服务名。",
+        "additionalProperties": {
+          "type": "object",
+          "title": "服务",
+          "additionalProperties": true,
+          "properties": {
+            "image": {
+              "type": "string",
+              "description": "镜像名称与标签，如 nginx:1.25。"
+            },
+            "build": {
+              "type": "string",
+              "description": "本地构建上下文目录（与 image 二选一）。"
+            },
+            "restart": {
+              "type": "string",
+              "enum": ["no", "always", "on-failure", "unless-stopped"],
+              "description": "重启策略。"
+            },
+            "ports": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "端口映射，形如 \"宿主:容器\"。"
+            },
+            "environment": {
+              "type": "object",
+              "additionalProperties": { "type": "string" },
+              "description": "环境变量键值表。"
+            },
+            "volumes": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "数据卷挂载。"
+            },
+            "depends_on": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "依赖的其它服务名。"
+            }
+          }
+        }
+      },
+      "volumes": {
+        "type": "object",
+        "title": "命名卷",
+        "additionalProperties": true,
+        "description": "声明命名数据卷。"
+      },
+      "networks": {
+        "type": "object",
+        "title": "网络",
+        "additionalProperties": true,
+        "description": "声明自定义网络。"
+      }
+    }
+  },
+  "ui": {
+    "ui:order": ["version", "services", "volumes", "networks", "*"],
+    "version": { "ui:help": "如 \"3.8\"；较新版 Docker Compose 可不写。" },
+    "services": {
+      "additionalProperties": {
+        "image": { "ui:help": "镜像名:标签，如 postgres:16。" },
+        "restart": {
+          "ui:enumNames": ["不重启", "总是重启", "失败时重启", "除非手动停止"],
+          "ui:help": "容器退出后的重启策略。"
+        },
+        "ports": { "ui:help": "每项形如 8080:80（宿主端口:容器端口）。" },
+        "environment": {
+          "ui:help": "⚠️ 含 PASSWORD/TOKEN/KEY 的环境变量请在生成时标为密钥（ui:secret）。"
+        },
+        "volumes": { "ui:help": "每项形如 data:/var/lib/...。" }
+      }
+    }
+  },
+  "meta": {
+    "generatedBy": "curated/cfgform-schemas",
+    "generatedAt": "2026-06-20T10:15:30Z",
+    "stackDetected": "generic",
+    "llm": {
+      "used": false,
+      "model": "",
+      "note": "内置 schema 库精选模板，手工策划。复制到你的 docker-compose.yml 旁并改名为 docker-compose.yml.cfgform 即可使用；可按需为含密码的环境变量补 ui:secret。"
+    },
+    "sources": []
+  }
+}

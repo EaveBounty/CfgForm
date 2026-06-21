@@ -1,0 +1,17 @@
+{
+  "appName": "示例服务",
+  "mode": "dev",
+  "port": 8080,
+  "maxConnections": 100,
+  "logLevel": "info",
+  "https": false,
+  "httpsCertPath": "",
+  "apiKey": "sk-demo-REPLACE-ME",
+  "cache": {
+    "enabled": true,
+    "ttlSeconds": 300
+  },
+  "allowedOrigins": [
+    "http://localhost:3000"
+  ]
+}

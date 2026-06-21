@@ -1,0 +1,97 @@
+{
+  "$cfgform": "2.0",
+  "target": "package.json",
+  "format": "json",
+  "title": "npm 包配置（package.json）",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "package.json",
+    "description": "Node.js / npm 包清单的常见字段模板（适度宽松，允许其它字段）。",
+    "required": ["name", "version"],
+    "additionalProperties": true,
+    "properties": {
+      "name": {
+        "type": "string",
+        "pattern": "^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$",
+        "description": "包名（小写，可含作用域 @scope/name）。"
+      },
+      "version": {
+        "type": "string",
+        "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+].+)?$",
+        "description": "语义化版本号，形如 1.2.3。"
+      },
+      "description": {
+        "type": "string",
+        "description": "包的一句话描述。"
+      },
+      "private": {
+        "type": "boolean",
+        "default": false,
+        "description": "为 true 时禁止误发布到 npm。"
+      },
+      "type": {
+        "type": "string",
+        "enum": ["module", "commonjs"],
+        "description": "模块系统：ESM 或 CommonJS。"
+      },
+      "main": {
+        "type": "string",
+        "description": "包入口文件。"
+      },
+      "license": {
+        "type": "string",
+        "description": "许可证标识，如 MIT。"
+      },
+      "scripts": {
+        "type": "object",
+        "additionalProperties": { "type": "string" },
+        "description": "npm 脚本命令表。"
+      },
+      "dependencies": {
+        "type": "object",
+        "additionalProperties": { "type": "string" },
+        "description": "运行时依赖及其版本范围。"
+      },
+      "devDependencies": {
+        "type": "object",
+        "additionalProperties": { "type": "string" },
+        "description": "开发期依赖及其版本范围。"
+      }
+    }
+  },
+  "ui": {
+    "ui:order": [
+      "name",
+      "version",
+      "description",
+      "private",
+      "type",
+      "main",
+      "license",
+      "scripts",
+      "dependencies",
+      "devDependencies",
+      "*"
+    ],
+    "name": { "ui:help": "小写包名；私有作用域包形如 @org/pkg。" },
+    "version": { "ui:help": "遵循语义化版本（SemVer），形如 1.2.3。" },
+    "private": { "ui:help": "内部项目建议设为 true，避免误发布。" },
+    "type": {
+      "ui:enumNames": ["ES 模块（ESM）", "CommonJS"],
+      "ui:help": "决定 .js 文件按 ESM 还是 CommonJS 解析。"
+    },
+    "scripts": { "ui:help": "键为命令名（如 build），值为实际执行的脚本。" }
+  },
+  "meta": {
+    "generatedBy": "curated/cfgform-schemas",
+    "generatedAt": "2026-06-20T10:15:30Z",
+    "stackDetected": "node",
+    "llm": {
+      "used": false,
+      "model": "",
+      "note": "内置 schema 库精选模板，手工策划。复制到你的 package.json 旁并改名为 package.json.cfgform 即可使用。"
+    },
+    "sources": []
+  }
+}

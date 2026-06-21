@@ -1,0 +1,161 @@
+{
+  "$cfgform": "2.0",
+  "target": "config.json",
+  "format": "json",
+  "title": "应用主配置（JSON 示例）",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "应用主配置",
+    "required": ["appName", "mode", "port"],
+    "properties": {
+      "appName": {
+        "type": "string",
+        "minLength": 1,
+        "default": "示例服务",
+        "description": "对外展示的服务名称。"
+      },
+      "mode": {
+        "type": "string",
+        "enum": ["dev", "staging", "prod"],
+        "default": "dev",
+        "description": "运行模式。生产模式下必须启用 HTTPS。"
+      },
+      "port": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 65535,
+        "default": 8080,
+        "description": "服务监听端口（1–65535）。"
+      },
+      "maxConnections": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10000,
+        "default": 100,
+        "description": "最大并发连接数。"
+      },
+      "logLevel": {
+        "type": "string",
+        "enum": ["debug", "info", "warn", "error"],
+        "default": "info",
+        "description": "日志级别。"
+      },
+      "https": {
+        "type": "boolean",
+        "default": false,
+        "description": "是否启用 HTTPS。"
+      },
+      "httpsCertPath": {
+        "type": "string",
+        "default": "",
+        "description": "HTTPS 证书路径（启用 HTTPS 时填写）。"
+      },
+      "apiKey": {
+        "type": "string",
+        "description": "对接第三方服务的 API 密钥。"
+      },
+      "cache": {
+        "type": "object",
+        "title": "缓存设置",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "是否启用缓存。"
+          },
+          "ttlSeconds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 86400,
+            "default": 300,
+            "description": "缓存有效期（秒，0–86400）。"
+          }
+        }
+      },
+      "allowedOrigins": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "uri"
+        },
+        "description": "允许跨域访问的来源地址列表。"
+      }
+    },
+    "if": {
+      "properties": {
+        "mode": { "const": "prod" }
+      }
+    },
+    "then": {
+      "properties": {
+        "https": { "const": true }
+      },
+      "required": ["https"]
+    }
+  },
+  "ui": {
+    "ui:order": [
+      "appName",
+      "mode",
+      "port",
+      "maxConnections",
+      "logLevel",
+      "https",
+      "httpsCertPath",
+      "apiKey",
+      "cache",
+      "allowedOrigins"
+    ],
+    "appName": {
+      "ui:help": "用户在界面上看到的服务名称，可填中文。"
+    },
+    "mode": {
+      "ui:widget": "radio",
+      "ui:enumNames": ["开发", "预发布", "生产"],
+      "ui:help": "选择生产模式时，HTTPS 会变为必填且必须开启。"
+    },
+    "port": {
+      "ui:help": "常见值：8080（开发）、443（HTTPS）。范围 1–65535。"
+    },
+    "maxConnections": {
+      "ui:widget": "range",
+      "ui:options": { "min": 1, "max": 10000, "step": 1 },
+      "ui:help": "拖动滑块设置最大并发连接数。"
+    },
+    "logLevel": {
+      "ui:enumNames": ["调试", "信息", "警告", "错误"],
+      "ui:help": "排查问题时可临时调到「调试」。"
+    },
+    "https": {
+      "ui:help": "生产环境强烈建议开启。"
+    },
+    "httpsCertPath": {
+      "ui:placeholder": "/etc/ssl/cert.pem",
+      "ui:help": "仅在开启 HTTPS 时需要填写证书路径。"
+    },
+    "apiKey": {
+      "ui:secret": true,
+      "ui:help": "敏感密钥，默认掩码显示；其值不会写入审计日志或边车文件。"
+    },
+    "cache": {
+      "ttlSeconds": {
+        "ui:help": "0 表示不过期；最大 86400 秒（一天）。"
+      }
+    },
+    "allowedOrigins": {
+      "ui:help": "每项是一个完整的 URL，例如 http://localhost:3000。"
+    }
+  },
+  "meta": {
+    "generatedBy": "curated/cfgform-sample",
+    "generatedAt": "2026-06-20T10:15:30Z",
+    "stackDetected": "node",
+    "llm": {
+      "used": false,
+      "model": "",
+      "note": "示例边车，手工编写，演示枚举/数值范围/必填/默认值/密钥掩码/条件校验（mode=prod 时 https 必填）。"
+    },
+    "sources": []
+  }
+}
