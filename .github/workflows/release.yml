@@ -52,7 +52,7 @@ jobs:
         run: npm install
 
       - name: Build & publish to Release (tauri-action)
-        uses: tauri-apps/tauri-action@v1
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # macOS 代码签名/公证（可选，留空则不签名）：
