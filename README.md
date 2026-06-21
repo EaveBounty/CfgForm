@@ -296,9 +296,9 @@ CfgForm/
 
 **任何商业使用都需要向作者单独购买付费商业授权**（销售、用于营利性产品/服务、超出评估范围的内部经营性使用等）。商业授权说明见 **[COMMERCIAL.md](COMMERCIAL.md)**，具体条款与费用按协议约定。
 
-© 2026 Quietpeng
+© 2026 长沙市果垂素宇工程设计有限公司
 
-> 注：版权人姓名 `Quietpeng`、年份 `2026` 与 [COMMERCIAL.md](COMMERCIAL.md) 中的联系邮箱占位符 `<your-contact-email>` 均可按需替换为你自己的信息。
+> 注：版权人姓名 `长沙市果垂素宇工程设计有限公司`、年份 `2026` 与 [COMMERCIAL.md](COMMERCIAL.md) 中的联系邮箱占位符 `<your-contact-email>` 均可按需替换为你自己的信息。
 
 ---
 
@@ -306,4 +306,4 @@ CfgForm/
 
 变更日志：2026-06-21 文档准确性校订——规范文档修订号统一为 v2.1（边车 `$cfgform` 字段值仍为 `"2.0"`）；exe 体积统一为 configurator ≈ 10.0 MB / prep-tool ≈ 12.5 MB；明确 DeepSeek 默认端点与模型、prep-tool 的 `settings.json` 非密钥持久化；补充 docs/DISTRIBUTION.md 指引并澄清当前仅实测独立 exe。
 
-变更日志：2026-06-22 许可证由 MIT 切换为 PolyForm Noncommercial License 1.0.0（非商业免费、商业用途需付费授权），版权人 Quietpeng；新增 COMMERCIAL.md / COMMERCIAL.en.md 商业授权说明，更新许可证徽章与目录说明，README 中英同步。
+变更日志：2026-06-22 许可证由 MIT 切换为 PolyForm Noncommercial License 1.0.0（非商业免费、商业用途需付费授权），版权人 长沙市果垂素宇工程设计有限公司；新增 COMMERCIAL.md / COMMERCIAL.en.md 商业授权说明，更新许可证徽章与目录说明，README 中英同步。

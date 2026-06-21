@@ -296,9 +296,9 @@ This project is released under the **[PolyForm Noncommercial License 1.0.0](LICE
 
 **Any commercial use requires a separate paid commercial license from the author** (selling, using in a for-profit product/service, internal business use beyond evaluation, etc.). See **[COMMERCIAL.md](COMMERCIAL.md)** for commercial licensing; specific terms and fees are by agreement.
 
-© 2026 Quietpeng
+© 2026 长沙市果垂素宇工程设计有限公司
 
-> Note: the copyright holder name `Quietpeng`, the year `2026`, and the contact email placeholder `<your-contact-email>` in [COMMERCIAL.md](COMMERCIAL.md) can all be replaced with your own information as needed.
+> Note: the copyright holder name `长沙市果垂素宇工程设计有限公司`, the year `2026`, and the contact email placeholder `<your-contact-email>` in [COMMERCIAL.md](COMMERCIAL.md) can all be replaced with your own information as needed.
 
 ---
 
@@ -306,4 +306,4 @@ Change log: 2026-06-20 Completed v2.0 — format-agnostic core + 6 format adapte
 
 Change log: 2026-06-21 Doc-accuracy pass — spec document revision unified to v2.1 (the sidecar `$cfgform` field value remains `"2.0"`); exe sizes unified to configurator ≈ 10.0 MB / prep-tool ≈ 12.5 MB; clarified the DeepSeek default endpoint/model and prep-tool's non-secret `settings.json` persistence; added a docs/DISTRIBUTION.md pointer and clarified that only standalone exes were verified so far.
 
-Change log: 2026-06-22 License switched from MIT to PolyForm Noncommercial License 1.0.0 (free for noncommercial use, paid license required for commercial use), copyright holder Quietpeng; added COMMERCIAL.md / COMMERCIAL.en.md commercial licensing docs, updated the license badge and directory note, README zh/en kept in sync.
+Change log: 2026-06-22 License switched from MIT to PolyForm Noncommercial License 1.0.0 (free for noncommercial use, paid license required for commercial use), copyright holder 长沙市果垂素宇工程设计有限公司; added COMMERCIAL.md / COMMERCIAL.en.md commercial licensing docs, updated the license badge and directory note, README zh/en kept in sync.

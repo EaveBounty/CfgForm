@@ -24,10 +24,10 @@ If you are unsure whether your use case qualifies as commercial, please contact 
 
 Commercial licenses are granted by the author on a case-by-case basis, and the **specific terms and fees are by mutual agreement** (which may be arranged per seat, per entity, per project, one-time buyout, etc.).
 
-- Copyright holder: **Quietpeng** (2026)
+- Copyright holder: **长沙市果垂素宇工程设计有限公司** (2026)
 - Contact email: `<your-contact-email>`
 
-> Note: the contact email above is a placeholder — replace it with your real contact. The copyright holder name `Quietpeng` and year `2026` can also be changed as needed.
+> Note: the contact email above is a placeholder — replace it with your real contact. The copyright holder name `长沙市果垂素宇工程设计有限公司` and year `2026` can also be changed as needed.
 
 ## Notes
 
